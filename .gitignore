@@ -1,0 +1,26 @@
+```gitignore
+# Python environments
+telenv/
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Editors
+.vscode/
+.idea/
+
+# Local databases and logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+```

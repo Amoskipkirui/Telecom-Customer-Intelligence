@@ -1,0 +1,1721 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecom Customer Intelligence</title>
+
+    <style>
+        :root {
+            --navy: #101b35;
+            --navy-light: #1b2a4a;
+            --red: #e31b3d;
+            --bg: #f4f6fa;
+            --white: #ffffff;
+            --text: #202b42;
+            --muted: #7b879b;
+            --border: #e7eaf1;
+            --green: #16875d;
+            --amber: #bd790b;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        aside {
+            width: 245px;
+            flex-shrink: 0;
+            background: var(--navy);
+            color: white;
+            padding: 28px 18px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 750;
+            margin: 0 0 8px;
+        }
+
+        .brand span { color: #ff405e; }
+
+        .brand-sub {
+            color: #aebbd1;
+            font-size: 12px;
+            margin-bottom: 38px;
+        }
+
+        .nav-label {
+            color: #8e9cb6;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            margin: 25px 12px 12px;
+        }
+
+        
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin: 5px 0;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-item:hover {
+    background: #243b55;
+    color: #ffffff;
+}
+
+.nav-item.active {
+    background: #243b55;
+    color: #ffffff;
+    font-weight: 600;
+    border-left: 3px solid #e34b5b;
+}
+
+.nav-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.sidebar-note p {
+    margin: 6px 0 0;
+    line-height: 1.5;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+
+
+        .sidebar-note {
+            margin-top: 55px;
+            padding: 14px;
+            background: var(--navy-light);
+            border-radius: 10px;
+            color: #d4dced;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        main {
+            flex: 1;
+            min-width: 0;
+            padding: 30px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-size: 27px;
+            margin: 0 0 8px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .status {
+            background: #e5f6ed;
+            color: var(--green);
+            padding: 9px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 650;
+            white-space: nowrap;
+        }
+
+        .section-title {
+            font-size: 16px;
+            margin: 0 0 17px;
+        }
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 22px;
+            box-shadow: 0 3px 12px rgba(20, 35, 65, 0.025);
+        }
+
+        .kpi-label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .kpi-value {
+            font-size: 27px;
+            font-weight: 750;
+            margin: 12px 0 7px;
+        }
+
+        .kpi-note {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 10px;
+            margin: 18px 0 8px;
+        }
+
+        input {
+            min-width: 0;
+            flex: 1;
+            padding: 13px 14px;
+            border: 1px solid #dce2ec;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(227, 27, 61, 0.09);
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 17px;
+            font-size: 13px;
+            font-weight: 650;
+            cursor: pointer;
+        }
+
+        .primary {
+            color: white;
+            background: var(--red);
+        }
+
+        .primary:hover { background: #c91533; }
+
+        .secondary {
+            background: var(--navy);
+            color: white;
+            width: 100%;
+            margin-top: 17px;
+            padding: 14px;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .hint {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .message {
+            font-size: 13px;
+            margin-top: 12px;
+            line-height: 1.5;
+        }
+
+        .error { color: #c52840; }
+        .success { color: var(--green); }
+
+        .customer-name {
+            font-size: 19px;
+            font-weight: 750;
+        }
+
+        .customer-id {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 23px;
+        }
+
+        .detail-label {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .detail-value {
+            font-weight: 650;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .empty {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+            padding: 15px 0 5px;
+        }
+
+        .prediction-content { display: none; }
+
+        .risk-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .risk-pill {
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #e5f6ed;
+            color: var(--green);
+        }
+
+        .risk-pill.medium {
+            background: #fff2d8;
+            color: var(--amber);
+        }
+
+        .risk-pill.high {
+            background: #fde8ec;
+            color: #c51c3a;
+        }
+
+        .probability {
+            font-size: 42px;
+            font-weight: 800;
+            margin: 25px 0 12px;
+        }
+
+        .progress {
+            height: 9px;
+            border-radius: 10px;
+            background: #edf0f5;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--red);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .recommendation {
+            margin-top: 23px;
+            padding: 16px;
+            border-radius: 10px;
+            background: #fff5f6;
+            border: 1px solid #f9dce2;
+            line-height: 1.7;
+            font-size: 13px;
+        }
+
+        .recommendation strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 1050px) {
+            .workspace { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 720px) {
+            aside { display: none; }
+            main { padding: 18px; }
+            h1 { font-size: 22px; }
+            header { align-items: flex-start; }
+            .kpis { grid-template-columns: 1fr; }
+            .search-row { flex-wrap: wrap; }
+            .search-row button { width: 100%; }
+        }
+        
+#riskOverview {
+    margin-top: 24px;
+}
+
+#riskOverview h2 {
+    margin-bottom: 6px;
+}
+
+#riskOverview > p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.risk-row {
+    margin-bottom: 22px;
+}
+
+.risk-heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.risk-track {
+    height: 12px;
+    background: #edf0f5;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.risk-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 8px;
+    transition: width 0.5s ease;
+}
+
+.risk-fill.low {
+    background: #27966b;
+}
+
+.risk-fill.medium {
+    background: #e8a23a;
+}
+
+.risk-fill.high {
+    background: #d83a52;
+}
+
+.risk-row small {
+    display: block;
+    margin-top: 5px;
+    color: #64748b;
+}
+
+#retentionSection {
+    margin-top: 24px;
+}
+
+#retentionSection > p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.retention-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+}
+
+.retention-table th {
+    background: #f4f6fa;
+    color: #475569;
+    padding: 13px 12px;
+    white-space: nowrap;
+}
+
+.retention-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #e8edf3;
+    vertical-align: top;
+}
+
+.retention-table tbody tr:hover {
+    background: #fafbfe;
+}
+
+.risk-label {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.risk-label.high {
+    color: #b4233d;
+    background: #fde8ec;
+}
+
+.risk-label.medium {
+    color: #946200;
+    background: #fff3d6;
+}
+
+.risk-label.low {
+    color: #18794e;
+    background: #dcfce7;
+}
+
+.retention-filter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.retention-filter label {
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.retention-filter select {
+    padding: 10px 14px;
+    border: 1px solid #d9e0e9;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1e293b;
+    font-size: 14px;
+    cursor: pointer;
+    outline-color: #d7193f;
+}
+
+#revenueBreakdown {
+    margin-bottom: 24px;
+}
+
+#revenueBreakdown > p:first-of-type {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.revenue-risk-row {
+    margin-bottom: 22px;
+}
+
+.revenue-risk-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.revenue-risk-heading strong {
+    text-align: right;
+}
+
+.revenue-risk-track {
+    height: 12px;
+    background: #edf0f5;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.revenue-risk-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 8px;
+    transition: width 0.5s ease;
+}
+
+.revenue-risk-fill.high {
+    background: #d83a52;
+}
+
+.revenue-risk-fill.medium {
+    background: #e8a23a;
+}
+
+.revenue-risk-fill.low {
+    background: #27966b;
+}
+
+.revenue-risk-row small {
+    display: block;
+    color: #64748b;
+    margin-top: 6px;
+}
+
+#revenueBreakdownNote {
+    margin-top: 18px;
+}
+
+#retentionTracker {
+    margin-top: 24px;
+}
+
+#retentionTracker label {
+    display: block;
+    margin-bottom: 8px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#retentionTracker select,
+#retentionTracker textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce2ec;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+}
+
+#retentionTracker select:focus,
+#retentionTracker textarea:focus {
+    outline: 2px solid rgba(227, 27, 61, 0.15);
+    border-color: var(--red);
+}
+
+.tracker-field {
+    margin-top: 18px;
+}
+
+#saveActionButton {
+    margin-top: 16px;
+}
+
+.tracker-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 30px 0 14px;
+}
+
+.tracker-list-header h3 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.tracker-refresh {
+    background: var(--navy);
+    color: white;
+}
+
+.action-status-select {
+    min-width: 130px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: white;
+}
+
+.action-update-button {
+    margin-top: 7px;
+    background: var(--red);
+    color: white;
+}
+
+@media (max-width: 720px) {
+    .tracker-list-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+<div class="layout">
+
+    
+
+<aside>
+    <div class="brand">TELECOM<span>IQ</span></div>
+    <div class="brand-sub">CUSTOMER INTELLIGENCE</div>
+
+    <div class="nav-label">WORKSPACE</div>
+
+    <a href="#customer-intelligence"
+       class="nav-item active">
+        <span class="nav-icon">▦</span>
+        <span>Customer Intelligence</span>
+    </a>
+
+    <div class="nav-label">MANAGEMENT</div>
+
+    <a href="#revenue-analytics"
+       class="nav-item">
+        <span class="nav-icon">▤</span>
+        <span>Revenue Analytics</span>
+    </a>
+
+    <div class="sidebar-note">
+        <strong>Intelligence Platform</strong>
+        <p>Customer analytics, churn prediction and revenue intelligence.</p>
+    </div>
+</aside>
+
+
+
+    <main>
+        <header>
+            
+            <div>
+                <h1>Customer Intelligence</h1>
+                <div class="subtitle">
+                    Customer insights, churn risk and retention recommendations.
+                </div>
+            </div>
+            <div class="status">● API Connected</div>
+        </header>
+
+        
+<section class="kpis">
+    <div class="card">
+        <div class="kpi-label">Total Customers</div>
+        <div class="kpi-value" id="totalCustomers">Loading...</div>
+        <div class="kpi-note">Customers in the dataset</div>
+    </div>
+
+    <div class="card">
+        <div class="kpi-label">Actual Churn Rate</div>
+        <div class="kpi-value" id="actualChurnRate">Loading...</div>
+        <div class="kpi-note">Based on existing churn labels</div>
+    </div>
+
+    <div class="card">
+        <div class="kpi-label">Churned Customers</div>
+        <div class="kpi-value" id="churnedCustomers">Loading...</div>
+        <div class="kpi-note">Customers labelled as churned</div>
+    </div>
+    
+<div class="card">
+    <div class="kpi-label">Monthly Revenue at Risk</div>
+    <div class="kpi-value" id="revenueAtRisk">Loading...</div>
+    <div class="kpi-note" id="revenueAtRiskNote">
+        Revenue associated with high-risk customers
+    </div>
+</div>
+
+</section>
+
+<section class="card" id="revenueBreakdown">
+    <h2>Revenue Exposure by Risk Level</h2>
+    <p>Latest monthly revenue associated with each predicted risk group</p>
+
+    <div class="revenue-risk-row">
+        <div class="revenue-risk-heading">
+            <span>High Risk</span>
+            <strong id="highRevenue">Loading...</strong>
+        </div>
+        <div class="revenue-risk-track">
+            <div class="revenue-risk-fill high" id="highRevenueBar"></div>
+        </div>
+        <small id="highRevenueCustomers">Loading customers...</small>
+    </div>
+
+    <div class="revenue-risk-row">
+        <div class="revenue-risk-heading">
+            <span>Medium Risk</span>
+            <strong id="mediumRevenue">Loading...</strong>
+        </div>
+        <div class="revenue-risk-track">
+            <div class="revenue-risk-fill medium" id="mediumRevenueBar"></div>
+        </div>
+        <small id="mediumRevenueCustomers">Loading customers...</small>
+    </div>
+
+    <div class="revenue-risk-row">
+        <div class="revenue-risk-heading">
+            <span>Low Risk</span>
+            <strong id="lowRevenue">Loading...</strong>
+        </div>
+        <div class="revenue-risk-track">
+            <div class="revenue-risk-fill low" id="lowRevenueBar"></div>
+        </div>
+        <small id="lowRevenueCustomers">Loading customers...</small>
+    </div>
+
+    <p id="revenueBreakdownNote" class="hint">
+        Revenue figures are estimates of exposure, not confirmed losses.
+    </p>
+</section>
+
+<section class="card" id="riskOverview">
+    <h2>Customer Churn Risk Overview</h2>
+    <p>Model-estimated risk across the customer base</p>
+
+    <div class="risk-row">
+        <div class="risk-heading">
+            <span>Low Risk</span>
+            <strong id="lowRiskCount">Loading...</strong>
+        </div>
+        <div class="risk-track">
+            <div class="risk-fill low" id="lowRiskBar"></div>
+        </div>
+        <small id="lowRiskPercent">0%</small>
+    </div>
+
+    <div class="risk-row">
+        <div class="risk-heading">
+            <span>Medium Risk</span>
+            <strong id="mediumRiskCount">Loading...</strong>
+        </div>
+        <div class="risk-track">
+            <div class="risk-fill medium" id="mediumRiskBar"></div>
+        </div>
+        <small id="mediumRiskPercent">0%</small>
+    </div>
+
+    <div class="risk-row">
+        <div class="risk-heading">
+            <span>High Risk</span>
+            <strong id="highRiskCount">Loading...</strong>
+        </div>
+        <div class="risk-track">
+            <div class="risk-fill high" id="highRiskBar"></div>
+        </div>
+        <small id="highRiskPercent">0%</small>
+    </div>
+</section>
+
+<section class="card" id="retentionSection">
+    <h2>Retention Priority List</h2>
+    <p>Customers ranked by estimated churn probability</p>
+
+<div class="retention-filter">
+    <label for="riskFilter">Filter by risk level:</label>
+    <select id="riskFilter" onchange="loadRetentionPriority()">
+        <option value="All">All Risk Levels</option>
+        <option value="High">High Risk</option>
+        <option value="Medium">Medium Risk</option>
+        <option value="Low">Low Risk</option>
+    </select>
+</div>
+
+    <div class="table-wrapper">
+        <table class="retention-table">
+            
+<thead>
+    <tr>
+        <th>Customer ID</th>
+        <th>Churn Probability</th>
+        <th>Risk Level</th>
+        <th>Monthly Revenue</th>
+        <th>Revenue Exposure</th>
+        <th>Priority</th>
+        <th>Recommended Action</th>
+    </tr>
+</thead>
+
+            <tbody id="retentionTableBody">
+                <tr>
+                    <td colspan="4">Loading customers...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+<section class="card" id="retentionTracker">
+    <h2 class="section-title">Retention Action Tracker</h2>
+
+    <p class="subtitle">
+        Record customer follow-ups and track retention outcomes.
+    </p>
+
+    <form id="retentionActionForm">
+        <div class="details-grid">
+            <div>
+                <label for="actionCustomerId">Customer ID</label>
+                <input
+                    id="actionCustomerId"
+                    type="text"
+                    placeholder="e.g. C00001"
+                    required
+                >
+            </div>
+
+            <div>
+                <label for="actionType">Retention Action</label>
+                <select id="actionType" required>
+                    <option value="Phone Call">Phone Call</option>
+                    <option value="Complaint Follow-up">
+                        Complaint Follow-up
+                    </option>
+                    <option value="Retention Offer">Retention Offer</option>
+                    <option value="Account Review">Account Review</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tracker-field">
+            <label for="actionNotes">Interaction Notes</label>
+            <textarea
+                id="actionNotes"
+                rows="3"
+                maxlength="1000"
+                placeholder="Record the customer interaction or next steps..."
+            ></textarea>
+        </div>
+
+        <button class="primary" id="saveActionButton" type="submit">
+            Save Retention Action
+        </button>
+
+        <div id="actionFormMessage" class="message" role="status"></div>
+    </form>
+
+    <div class="tracker-list-header">
+        <h3>Recorded Actions</h3>
+        <button type="button" id="refreshActionsButton" class="tracker-refresh">
+            Refresh Actions
+        </button>
+    </div>
+
+    <div id="retentionActionsMessage" class="message" role="status"></div>
+
+    <div class="table-wrapper">
+        <table class="retention-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Action</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Last Updated</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody id="retentionActionsTableBody">
+                <tr>
+                    <td colspan="6">Loading recorded actions...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+        <div class="workspace">
+            <section class="card">
+                <h2 class="section-title">Customer Lookup</h2>
+                <div class="subtitle">
+                    Search by customer ID to retrieve account information.
+                </div>
+
+                <div class="search-row">
+                    <input id="customerId"
+                           type="text"
+                           placeholder="Enter ID, e.g. C00001"
+                           value="C00001">
+                    <button class="primary" id="searchButton"
+                            onclick="searchCustomer()">Search</button>
+                </div>
+
+                <div class="hint">
+                    Use a customer ID from your project dataset.
+                </div>
+                <div id="searchMessage" class="message"></div>
+
+                <div id="customerDetails" style="display:none;">
+                    <div style="border-top:1px solid var(--border);
+                                margin-top:22px; padding-top:20px;">
+                        <div class="customer-name" id="customerHeading">Customer</div>
+                        <div class="customer-id" id="customerSubheading"></div>
+                    </div>
+
+                    <div class="details-grid">
+                        <div>
+                            <div class="detail-label">City</div>
+                            <div class="detail-value" id="city">—</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Plan Type</div>
+                            <div class="detail-value" id="plan">—</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Contract</div>
+                            <div class="detail-value" id="contract">—</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Monthly Charges</div>
+                            <div class="detail-value" id="charges">—</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Tenure</div>
+                            <div class="detail-value" id="tenure">—</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Data Usage</div>
+                            <div class="detail-value" id="usage">—</div>
+                        </div>
+                    </div>
+
+                    <button class="secondary" id="predictButton"
+                            onclick="predictChurn()">
+                        Predict Churn
+                    </button>
+                    <div id="predictMessage" class="message"></div>
+                </div>
+
+                <div id="customerPlaceholder" class="empty">
+                    Customer details will appear here after a successful search.
+                </div>
+            </section>
+
+            <section class="card">
+                <h2 class="section-title">Churn Risk Assessment</h2>
+                <div class="subtitle">
+                    Model-based probability and suggested next action.
+                </div>
+
+                <div id="predictionPlaceholder" class="empty">
+                    <p><strong>No prediction yet</strong></p>
+                    Search for a customer, then select
+                    <strong>Predict Churn</strong> to see the result here.
+                </div>
+
+                <div id="predictionContent" class="prediction-content">
+                    <div class="risk-header">
+                        <div>
+                            <div class="detail-label">Customer</div>
+                            <div class="detail-value" id="predictionCustomer">—</div>
+                        </div>
+                        <span class="risk-pill" id="riskPill">Low Risk</span>
+                    </div>
+
+                    <div class="detail-label" style="margin-top:28px;">
+                        Estimated Churn Probability
+                    </div>
+                    <div class="probability" id="probability">0%</div>
+
+                    <div class="progress">
+                        <div class="progress-fill" id="probabilityBar"></div>
+                    </div>
+
+                    <div class="hint" style="margin-top:10px;">
+                        This is a model estimate, not a guarantee that a
+                        customer will leave.
+                    </div>
+
+                    <div class="recommendation">
+                        <strong>Recommended Retention Action</strong>
+                        <span id="recommendation">—</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            Telecom Customer Intelligence · Portfolio Prototype ·
+            Powered by Flask and Machine Learning
+        </footer>
+    </main>
+</div>
+
+<script>
+    let currentCustomerId = null;
+
+    const money = value => {
+        const number = Number(value);
+        return Number.isFinite(number)
+            ? "QAR " + number.toLocaleString("en-QA", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            })
+            : "—";
+    };
+
+    async function searchCustomer() {
+        const id = document.getElementById("customerId")
+            .value.trim();
+
+        const message = document.getElementById("searchMessage");
+        const button = document.getElementById("searchButton");
+
+        if (!id) {
+            message.className = "message error";
+            message.textContent = "Please enter a customer ID.";
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = "Searching...";
+        message.textContent = "";
+
+        try {
+            const response = await fetch(
+                `/customer/${encodeURIComponent(id)}`
+            );
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Customer not found.");
+            }
+
+            currentCustomerId = String(data.customer_id);
+
+            document.getElementById("customerDetails").style.display = "block";
+            document.getElementById("customerPlaceholder").style.display = "none";
+
+            document.getElementById("customerHeading").textContent =
+                "Customer " + currentCustomerId;
+            document.getElementById("customerSubheading").textContent =
+                "Customer profile";
+            //document.getElementById("selectedCustomer").textContent =
+                //currentCustomerId;
+
+            document.getElementById("city").textContent = data.city ?? "—";
+            document.getElementById("plan").textContent = data.plan_type ?? "—";
+            document.getElementById("contract").textContent =
+                data.contract_type ?? "—";
+            document.getElementById("charges").textContent =
+                money(data.monthly_charges_qar);
+            document.getElementById("tenure").textContent =
+                data.tenure_months == null
+                    ? "—" : data.tenure_months + " months";
+            document.getElementById("usage").textContent =
+                data.data_usage_gb_monthly == null
+                    ? "—" : Number(data.data_usage_gb_monthly).toFixed(2) + " GB";
+
+            // Clear the previous prediction when switching customers.
+            document.getElementById("predictionContent").style.display = "none";
+            document.getElementById("predictionPlaceholder").style.display = "block";
+            //document.getElementById("summaryRisk").textContent = "—";
+            document.getElementById("predictMessage").textContent = "";
+
+            message.className = "message success";
+            message.textContent = "Customer loaded successfully.";
+
+        } catch (error) {
+            currentCustomerId = null;
+            document.getElementById("customerDetails").style.display = "none";
+            document.getElementById("customerPlaceholder").style.display = "block";
+            message.className = "message error";
+            message.textContent = error.message;
+        } finally {
+            button.disabled = false;
+            button.textContent = "Search";
+        }
+    }
+
+    async function predictChurn() {
+        if (!currentCustomerId) {
+            return;
+        }
+
+        const button = document.getElementById("predictButton");
+        const message = document.getElementById("predictMessage");
+
+        button.disabled = true;
+        button.textContent = "Predicting...";
+        message.textContent = "";
+
+        try {
+            const response = await fetch(
+                `/predict/${encodeURIComponent(currentCustomerId)}`
+            );
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Prediction failed.");
+            }
+
+            const percent = Number(data.churn_probability_percent);
+            const risk = String(data.risk_level || "Low").toLowerCase();
+
+            document.getElementById("predictionPlaceholder").style.display = "none";
+            document.getElementById("predictionContent").style.display = "block";
+
+            document.getElementById("predictionCustomer").textContent =
+                data.customer_id;
+            document.getElementById("probability").textContent =
+                percent.toFixed(2) + "%";
+            document.getElementById("probabilityBar").style.width =
+                Math.min(100, Math.max(0, percent)) + "%";
+
+            const pill = document.getElementById("riskPill");
+            pill.textContent = data.risk_level + " Risk";
+            pill.className = "risk-pill" +
+                (risk === "high" ? " high" :
+                 risk === "medium" ? " medium" : "");
+
+            //document.getElementById("summaryRisk").textContent =
+                //data.risk_level;
+            document.getElementById("recommendation").textContent =
+                data.recommended_action || "Review the customer account.";
+
+            message.className = "message success";
+            message.textContent =
+                "Prediction generated successfully.";
+
+        } catch (error) {
+            message.className = "message error";
+            message.textContent = error.message;
+        } finally {
+            button.disabled = false;
+            button.textContent = "Predict Churn";
+        }
+    }
+
+    document.getElementById("customerId").addEventListener(
+        "keydown", event => {
+            if (event.key === "Enter") searchCustomer();
+        }
+    );
+
+    // Check the API and load the example customer.
+    
+async function initialise() {
+    try {
+        const response = await fetch("/summary");
+
+        if (!response.ok) {
+            throw new Error("Could not load business summary.");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("totalCustomers").textContent =
+            Number(data.total_customers).toLocaleString();
+
+        document.getElementById("actualChurnRate").textContent =
+            Number(data.actual_churn_rate_percent).toFixed(2) + "%";
+
+        document.getElementById("churnedCustomers").textContent =
+            Number(data.churned_customers).toLocaleString();
+
+        document.querySelector(".status").textContent =
+            "● API Connected";
+
+        await searchCustomer();
+
+const revenueResponse = await fetch("/revenue-at-risk");
+
+if (!revenueResponse.ok) {
+    throw new Error("Could not load revenue at risk.");
+}
+
+const revenueData = await revenueResponse.json();
+
+document.getElementById("revenueAtRisk").textContent =
+    "QAR " + Number(
+        revenueData.estimated_monthly_revenue_at_risk_qar
+    ).toLocaleString("en-QA", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+document.getElementById("revenueAtRiskNote").textContent =
+    revenueData.high_risk_customers.toLocaleString() +
+    " high-risk customers · " +
+    revenueData.revenue_data_month;
+
+    } catch (error) {
+        console.error("Dashboard initialisation failed:", error);
+
+        document.querySelector(".status").textContent =
+            "● Data unavailable";
+
+        document.querySelector(".status").style.background = "#fde8ec";
+        document.querySelector(".status").style.color = "#c51c3a";
+    }
+}
+
+initialise();
+
+
+async function loadRiskSummary() {
+    try {
+        const response = await fetch("/risk-summary");
+
+        if (!response.ok) {
+            throw new Error("Could not load risk summary.");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("lowRiskCount").textContent =
+            data.low_risk.toLocaleString();
+
+        document.getElementById("lowRiskPercent").textContent =
+            data.low_risk_percent + "%";
+
+        document.getElementById("lowRiskBar").style.width =
+            data.low_risk_percent + "%";
+
+        document.getElementById("mediumRiskCount").textContent =
+            data.medium_risk.toLocaleString();
+
+        document.getElementById("mediumRiskPercent").textContent =
+            data.medium_risk_percent + "%";
+
+        document.getElementById("mediumRiskBar").style.width =
+            data.medium_risk_percent + "%";
+
+        document.getElementById("highRiskCount").textContent =
+            data.high_risk.toLocaleString();
+
+        document.getElementById("highRiskPercent").textContent =
+            data.high_risk_percent + "%";
+
+        document.getElementById("highRiskBar").style.width =
+            data.high_risk_percent + "%";
+
+    } catch (error) {
+        console.error("Risk summary failed:", error);
+    }
+}
+
+async function loadRevenueRiskBreakdown() {
+    try {
+        const response = await fetch("/revenue-risk-breakdown");
+
+        if (!response.ok) {
+            throw new Error("Could not load revenue breakdown.");
+        }
+
+        const data = await response.json();
+
+        const revenueByRisk = {
+            High: {
+                amount: "highRevenue",
+                bar: "highRevenueBar",
+                customers: "highRevenueCustomers"
+            },
+            Medium: {
+                amount: "mediumRevenue",
+                bar: "mediumRevenueBar",
+                customers: "mediumRevenueCustomers"
+            },
+            Low: {
+                amount: "lowRevenue",
+                bar: "lowRevenueBar",
+                customers: "lowRevenueCustomers"
+            }
+        };
+
+        const maxRevenue = Math.max(
+            ...data.breakdown.map(
+                item => Number(item.estimated_monthly_revenue_qar)
+            ),
+            1
+        );
+
+        data.breakdown.forEach(item => {
+            const ids = revenueByRisk[item.risk_level];
+
+            if (!ids) return;
+
+            const amount = Number(item.estimated_monthly_revenue_qar);
+
+            document.getElementById(ids.amount).textContent =
+                "QAR " + amount.toLocaleString("en-QA", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+            document.getElementById(ids.bar).style.width =
+                (amount / maxRevenue * 100) + "%";
+
+            document.getElementById(ids.customers).textContent =
+                item.customer_count.toLocaleString() +
+                " customers · " +
+                item.customers_with_revenue.toLocaleString() +
+                " with revenue records";
+        });
+
+        document.getElementById("revenueBreakdownNote").textContent =
+            "Latest revenue month: " + (data.revenue_data_month || "Unavailable") +
+            ". Revenue associated with model-estimated risk, not confirmed losses.";
+
+    } catch (error) {
+        console.error("Revenue breakdown failed:", error);
+        document.getElementById("revenueBreakdownNote").textContent =
+            "Revenue breakdown could not be loaded. Please check the API.";
+    }
+}
+
+loadRevenueRiskBreakdown();
+
+loadRiskSummary();
+
+
+
+
+
+async function loadRetentionPriority() {
+    const tableBody = document.getElementById("retentionTableBody");
+    const riskFilter = document.getElementById("riskFilter");
+    const selectedRisk = riskFilter.value;
+
+    try {
+        const response = await fetch(
+            `/retention-priority?risk=${encodeURIComponent(selectedRisk)}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Could not load retention priorities.");
+        }
+
+        const customers = await response.json();
+
+        tableBody.replaceChildren();
+
+        if (customers.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+
+            cell.colSpan = 6;
+            cell.textContent = "No customers found in this risk category.";
+
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+            return;
+        }
+
+        customers.forEach(customer => {
+            const row = document.createElement("tr");
+
+            // Customer ID
+            const idCell = document.createElement("td");
+            idCell.textContent = customer.customer_id;
+
+            // Churn probability
+            const probabilityCell = document.createElement("td");
+            probabilityCell.textContent =
+                Number(customer.churn_probability).toFixed(2) + "%";
+
+            // Risk level
+            const riskCell = document.createElement("td");
+            const riskLabel = document.createElement("span");
+
+            riskLabel.className =
+                "risk-label " + customer.risk_level.toLowerCase();
+            riskLabel.textContent = customer.risk_level;
+            riskCell.appendChild(riskLabel);
+
+            // Latest monthly revenue
+            const revenueCell = document.createElement("td");
+            const monthlyRevenue = customer.monthly_revenue_qar;
+
+            revenueCell.textContent =
+                monthlyRevenue == null
+                    ? "Unavailable"
+                    : "QAR " + Number(monthlyRevenue).toLocaleString(
+                        "en-QA",
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    );
+
+            // Estimated monthly revenue exposure
+            const exposureCell = document.createElement("td");
+            const exposure =
+                customer.estimated_monthly_revenue_exposure_qar;
+
+            exposureCell.textContent =
+                exposure == null
+                    ? "Unavailable"
+                    : "QAR " + Number(exposure).toLocaleString(
+                        "en-QA",
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    );
+
+            // Retention priority
+            const priorityCell = document.createElement("td");
+            priorityCell.textContent =
+                customer.retention_priority || "Not ranked";
+
+            // Recommended action
+            const actionCell = document.createElement("td");
+            actionCell.textContent =
+                customer.recommended_action || "Review customer account";
+
+            row.append(
+                idCell,
+                probabilityCell,
+                riskCell,
+                revenueCell,
+                exposureCell,
+                priorityCell,
+                actionCell
+            );
+
+            tableBody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error("Retention table failed:", error);
+
+        tableBody.replaceChildren();
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 7;
+        cell.textContent = "Unable to load retention priorities.";
+
+        row.appendChild(cell);
+        tableBody.appendChild(row);
+    }
+}
+loadRetentionPriority();
+
+const actionForm = document.getElementById("retentionActionForm");
+
+actionForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const customerId = document.getElementById("actionCustomerId")
+        .value.trim().toUpperCase();
+
+    const actionType = document.getElementById("actionType").value;
+
+    const notes = document.getElementById("actionNotes").value.trim();
+
+    const message = document.getElementById("actionFormMessage");
+    const button = document.getElementById("saveActionButton");
+
+    if (!customerId) {
+        message.className = "message error";
+        message.textContent = "Please enter a customer ID.";
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Saving...";
+
+    try {
+        const response = await fetch("/retention-actions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                customer_id: customerId,
+                action_type: actionType,
+                notes: notes
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Could not save the action.");
+        }
+
+        message.className = "message success";
+        message.textContent =
+            `Action #${data.action_id} saved successfully for ${customerId}.`;
+
+        document.getElementById("actionNotes").value = "";
+
+        await loadRetentionActions();
+
+    } catch (error) {
+        message.className = "message error";
+        message.textContent = error.message;
+    } finally {
+        button.disabled = false;
+        button.textContent = "Save Retention Action";
+    }
+});
+
+
+async function loadRetentionActions() {
+    const tableBody = document.getElementById("retentionActionsTableBody");
+    const message = document.getElementById("retentionActionsMessage");
+
+    message.textContent = "";
+
+    try {
+        const response = await fetch("/retention-actions");
+
+        if (!response.ok) {
+            throw new Error("Could not load recorded actions.");
+        }
+
+        const actions = await response.json();
+
+        tableBody.replaceChildren();
+
+        if (actions.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+
+            cell.colSpan = 6;
+            cell.textContent = "No retention actions recorded yet.";
+
+            row.appendChild(cell);
+            tableBody.appendChild(row);
+            return;
+        }
+
+        actions.forEach(action => {
+            const row = document.createElement("tr");
+
+            function addCell(value) {
+                const cell = document.createElement("td");
+                cell.textContent = value ?? "—";
+                row.appendChild(cell);
+                return cell;
+            }
+
+            addCell(action.customer_id);
+            addCell(action.action_type);
+
+            const statusCell = addCell(action.status);
+            statusCell.style.fontWeight = "600";
+
+            addCell(action.notes || "—");
+            addCell(action.updated_at);
+
+            const updateCell = document.createElement("td");
+
+            const statusSelect = document.createElement("select");
+            statusSelect.className = "action-status-select";
+
+            [
+                "Pending",
+                "Contacted",
+                "Offer Made",
+                "Retained",
+                "Declined",
+                "Unreachable",
+                "Closed"
+            ].forEach(status => {
+                const option = document.createElement("option");
+                option.value = status;
+                option.textContent = status;
+                statusSelect.appendChild(option);
+            });
+
+            statusSelect.value = action.status;
+
+            const updateButton = document.createElement("button");
+            updateButton.type = "button";
+            updateButton.className = "action-update-button";
+            updateButton.textContent = "Update";
+
+            updateButton.addEventListener("click", async () => {
+                updateButton.disabled = true;
+                updateButton.textContent = "Updating...";
+
+                try {
+                    const updateResponse = await fetch(
+                        `/retention-actions/${action.id}`,
+                        {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                status: statusSelect.value
+                            })
+                        }
+                    );
+
+                    const result = await updateResponse.json();
+
+                    if (!updateResponse.ok) {
+                        throw new Error(
+                            result.error || "Could not update the action."
+                        );
+                    }
+
+                    message.className = "message success";
+                    message.textContent =
+                        `Action #${action.id} updated to ${result.status}.`;
+
+                    await loadRetentionActions();
+
+                } catch (error) {
+                    message.className = "message error";
+                    message.textContent = error.message;
+                } finally {
+                    updateButton.disabled = false;
+                    updateButton.textContent = "Update";
+                }
+            });
+
+            updateCell.append(statusSelect, updateButton);
+            row.appendChild(updateCell);
+
+            tableBody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error("Could not load retention actions:", error);
+
+        tableBody.replaceChildren();
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 6;
+        cell.textContent = "Unable to load recorded actions.";
+
+        row.appendChild(cell);
+        tableBody.appendChild(row);
+
+        message.className = "message error";
+        message.textContent = error.message;
+    }
+}
+
+
+document.getElementById("refreshActionsButton")
+    .addEventListener("click", loadRetentionActions);
+
+
+// Load previously saved actions when the dashboard opens.
+loadRetentionActions();
+
+</script>
+</body>
+</html>
