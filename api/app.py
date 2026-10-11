@@ -581,7 +581,7 @@ def edit_retention_action(action_id):
         "action_id": action_id,
         "status": status
     })
+initialise_database()
 
 if __name__ == "__main__":
-    initialise_database()
     app.run(debug=True)
