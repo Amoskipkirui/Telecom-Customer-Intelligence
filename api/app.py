@@ -6,7 +6,7 @@ import joblib
 import pandas as pd
 from flask import Flask, jsonify, request, render_template
 
-from retention_db import (
+from api.retention_db import (
     initialise_database,
     create_action,
     get_actions,
